@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    private const LOGIN_SUCCESS_MESSAGE = 'Login successful';
     public function register(Request $request)
     {
         $request->validate([
@@ -26,8 +28,6 @@ class AuthController extends Controller
         } else {
             return response()->json(['message' => 'User registration failed'], 500);
         }
-    }
-    
     public function login(Request $request)
     {
         $request->validate([
@@ -35,41 +35,36 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
         
-        if (!auth()->attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('email', 'password'))) {
             if ($request->wantsJson()) {
                 return response()->json(['message' => 'Invalid credentials'], 401);
             }
             
             return redirect()->back()
                 ->withInput($request->only('email'))
-                ->withErrors(['login_error' => 'Email atau password yang Anda masukkan salah.']);
+                ->withErrors(['error' => 'The email or password you entered is incorrect.']);
         }
         
-        $user = auth()->user();
+        $user = Auth::user();
         $user->tokens()->delete();
         $token = $user->createToken('auth_token')->plainTextToken;
+        $responseData = [
+            'message' => self::LOGIN_SUCCESS_MESSAGE,
+            'user' => $user,
+            'token' => $token
+        ];
 
         if ($request->wantsJson()) {
-            return response()->json([
-                'message' => 'Login successful',
-                'user' => $user,
-                'token' => $token
-            ], 200);
-        } else {
-            if ($user->role == "Admin") {
-                return redirect()->route(route: 'register')->with([
-                    'message' => 'Login successful',
-                    'user' => $user,
-                    'token' => $token
-                ]);
-            }
-            else {
-                return redirect()->route(route: 'home')->with([
-                    'message' => 'Login successful',
-                    'user' => $user,
-                    'token' => $token
-                ]);
-            }
+            return response()->json($responseData, 200);
+        }
+        
+        $redirectRoute = 'home';
+        if (strtolower($user->role) === 'admin') {
+            $redirectRoute = 'register';
+        }
+        
+        return redirect()->route($redirectRoute)->with($responseData);
+    }
         }
     }
 }

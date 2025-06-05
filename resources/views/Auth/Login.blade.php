@@ -5,12 +5,13 @@
     <div class="w-full max-w-md">
         <div class="card bg-base-100 shadow-xl">
             <div class="card-body">
+                <img src="https://laravel.com/img/logomark.min.svg" alt="Laravel" class="logo h-8">
                 <h2 class="card-title text-2xl font-bold text-center mb-4">Login</h2>
                 
-                @if(session('error'))
+                @if(session('error') || $errors->has('error'))
                     <div class="alert alert-error mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        <span>{{ session('error') }}</span>
+                        <span>{{ session('error') ?: $errors->first('error') }}</span>
                     </div>
                 @endif
                 

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MahasiswaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,8 +17,10 @@ Route::get('/register', function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index']);
+    
 });
 
-Route::middleware(['auth', 'role:student'])->group(function () {
-    Route::get('/student/dashboard', [StudentController::class, 'index']);
+Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
+    Route::get('/dashboard', [MahasiswaController::class, 'index']);
+    Route::get('', [MahasiswaController::class,'']);
 });

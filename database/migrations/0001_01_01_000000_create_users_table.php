@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('user_id')->unique();
             $table->string('email')->unique();
-            $table->string('role')->default('student');
+            $table->string('role')->default('mahasiswa');
             $table->string('password');
             $table->timestamps();
         });
