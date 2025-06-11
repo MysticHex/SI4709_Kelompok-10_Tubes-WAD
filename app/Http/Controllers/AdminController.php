@@ -7,11 +7,9 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    //
     public function index()
     {
-        // Logika untuk menampilkan dashboard admin
-        $tak=TAKSubmission::orderBy("created_at","desc")->get();
+        $tak=TAKSubmission::with('user')->latest()->paginate(10);
         return view('admin.dashboard',compact('tak'));
     }
 

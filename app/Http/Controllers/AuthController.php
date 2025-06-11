@@ -28,23 +28,24 @@ class AuthController extends Controller
         } else {
             return response()->json(['message' => 'User registration failed'], 500);
         }
+    }
     public function login(Request $request)
     {
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-        
+
         if (!Auth::attempt($request->only('email', 'password'))) {
             if ($request->wantsJson()) {
                 return response()->json(['message' => 'Invalid credentials'], 401);
             }
-            
+
             return redirect()->back()
                 ->withInput($request->only('email'))
                 ->withErrors(['error' => 'The email or password you entered is incorrect.']);
         }
-        
+
         $user = Auth::user();
         $user->tokens()->delete();
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -57,14 +58,13 @@ class AuthController extends Controller
         if ($request->wantsJson()) {
             return response()->json($responseData, 200);
         }
-        
-        $redirectRoute = 'home';
+
         if (strtolower($user->role) === 'admin') {
-            $redirectRoute = 'register';
+            $redirectRoute = 'admin.dashboard';
         }
-        
+        if (strtolower($user->role) === 'mahasiswa' ||strtolower($user->role) === 'student') {
+            $redirectRoute = 'mahasiswa.dashboard';
+        }
         return redirect()->route($redirectRoute)->with($responseData);
-    }
-        }
     }
 }

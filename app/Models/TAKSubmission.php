@@ -10,15 +10,15 @@ class TAKSubmission extends Model
     protected $table = 'tak_submissions';
     protected $fillable = [
         'user_id', 'activity_name', 'category', 'level',
-        'activity_date', 'file_path', 'approval_status_id'
+        'activity_date', 'file_path', 'approval_status_id', 'point'
     ];
 
-    public function user()
+    public function user(array $attributes = ['user_id'])
     {
         return $this->belongsTo(User::class);
     }
 
-    public function status()
+    public function status(array $attributes = ['approval_status_id'])
     {
         return $this->belongsTo(ApprovalStatus::class, 'approval_status_id');
     }
