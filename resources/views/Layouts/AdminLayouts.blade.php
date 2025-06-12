@@ -25,7 +25,7 @@
                     </label>
                 </div>
                 <div class="flex-1">
-                    <a class="btn btn-ghost text-xl">Admin Panel</a>
+                    <a class="btn btn-ghost text-xl" href="{{ route('admin.dashboard') }}">Admin Panel</a>
                 </div>
                 <div class="dropdown dropdown-end">
                     <label tabindex="0" class="btn btn-ghost btn-circle avatar">
@@ -36,9 +36,14 @@
                     </label>
                     <ul tabindex="0"
                         class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a>Profile</a></li>
+                        <li><a href="{{ route('admin.users') }}">Profile</a></li>
                         <li><a>Settings</a></li>
-                        <li><a>Logout</a></li>
+                        <li>
+                            <form method="POST" action="{{ route('api.logout') }}">
+                                @csrf
+                                <button type="submit" class="btn btn-ghost w-full text-left">Logout</button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -13,18 +13,25 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'student_id' => 'required|string|max:255',
+            'role' => 'required|string|in:admin,student',
+            'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8|confirmed',
         ]);
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'nama' => $request->input('name'),
+            'user_id' => $request->input('student_id'),
+            'role' => $request->input('role'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
         ]);
-
         if ($user) {
-            $token = $user->createToken('auth_token')->plainTextToken;
-            return response()->json(['message' => 'User registered successfully', 'user' => $user, 'token' => $token], 201);
+            if (request()->wantsJson()) {
+                $token = $user->createToken('auth_token')->plainTextToken;
+                return response()->json(['message' => 'User registered successfully', 'user' => $user, 'token' => $token], 201);
+            }
+            return redirect()->route('login')->with('message', self::LOGIN_SUCCESS_MESSAGE);
+
         } else {
             return response()->json(['message' => 'User registration failed'], 500);
         }
@@ -49,22 +56,26 @@ class AuthController extends Controller
         $user = Auth::user();
         $user->tokens()->delete();
         $token = $user->createToken('auth_token')->plainTextToken;
-        $responseData = [
-            'message' => self::LOGIN_SUCCESS_MESSAGE,
-            'user' => $user,
-            'token' => $token
-        ];
-
-        if ($request->wantsJson()) {
-            return response()->json($responseData, 200);
-        }
 
         if (strtolower($user->role) === 'admin') {
             $redirectRoute = 'admin.dashboard';
-        }
-        if (strtolower($user->role) === 'mahasiswa' ||strtolower($user->role) === 'student') {
+        } elseif (strtolower($user->role) == 'student') {
             $redirectRoute = 'mahasiswa.dashboard';
         }
-        return redirect()->route($redirectRoute)->with($responseData);
+
+        return redirect()->route($redirectRoute);
+    }
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user->tokens()->delete();
+            Auth::guard('web')->logout();
+            if ($request->wantsJson()) {
+                return response()->json(['message' => 'Logout successful'], 200);
+            }
+            return redirect()->route('login')->with('message', 'Logout successful');
+        }
+        return response()->json(['message' => 'User not authenticated'], 401);
     }
 }

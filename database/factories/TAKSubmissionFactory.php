@@ -23,6 +23,7 @@ class TAKSubmissionFactory extends Factory
             'level' => $this->faker->randomElement(['Peserta', 'Panitia', 'Ketua']),
             'activity_date' => $this->faker->date(),
             'file_path' => null,
+            'point' => 0,
             'approval_status_id' => 1,
         ];
     }

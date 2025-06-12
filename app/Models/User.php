@@ -18,7 +18,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = ['name', 'student_id', 'email', 'password', 'role'];
+    protected $fillable = ['nama', 'user_id', 'email', 'password', 'role'];
 
     public function isAdmin()
     {
@@ -30,15 +30,11 @@ class User extends Authenticatable
         return $this->role === 'student';
     }
 
-    public function takSubmissions()
+    public function taks()
     {
         return $this->hasMany(TAKSubmission::class);
     }
 
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
-    }
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -60,5 +56,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
     }
 }

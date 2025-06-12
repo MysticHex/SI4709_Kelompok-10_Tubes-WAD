@@ -21,6 +21,10 @@ class CheckRole
         }
 
         $user = Auth::user();
+        // Debugging: Log the user's role and the required role
+        logger('User Role: ' . $user->role);
+        logger('Required Role: ' . $role);
+
         if (strtolower($user->role) == strtolower($role)) {
             return $next($request);
         }

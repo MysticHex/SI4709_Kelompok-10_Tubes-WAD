@@ -10,7 +10,7 @@ class ApprovalStatus extends Model
     use HasFactory;
         protected $fillable = ['status', 'description'];
 
-    public function submissions()
+    public function tak()
     {
         return $this->hasMany(TAKSubmission::class);
     }

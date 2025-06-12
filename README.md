@@ -7,7 +7,7 @@ Pengerjaan tugas besar mata kuliah Pengembangan Aplikasi Website kelompok 10 kel
 
 - [Andikanajmi Levi Maheswara](https://www.github.com/MysticHex)
 - [M Faris Alfaqih](https://www.github.com/farisalfaqih)
-- [M Ilham Fathurrohman](https://www.github.com/milhamfr)
+- [M Ilham Fathurrahman](https://www.github.com/milhamfr)
 - [M Althaf Arrajab](https://www.github.com/ALTHAFARRAJAB)
 
 

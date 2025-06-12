@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('category');
             $table->string('level');
             $table->date('activity_date');
-            $table->integer('point')->nullable()->default();
+            $table->integer( 'point')->nullable()->default(0);
             $table->string('file_path')->nullable();
             $table->foreignId('approval_status_id')->constrained();
             $table->timestamps();

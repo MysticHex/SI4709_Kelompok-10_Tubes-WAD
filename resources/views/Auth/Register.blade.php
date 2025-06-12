@@ -6,7 +6,7 @@
         <div class="card-body">
             <h2 class="card-title text-center text-3xl font-bold mb-6">Register</h2>
 
-            <form method="POST" action="{{ route('register') }}">
+            <form method="POST" action="{{ route('api.register') }}">
                 @csrf
                 <div class="form-control mb-4">
                     <label for="name" class="label">
