@@ -23,21 +23,19 @@ class FeedbacksController extends Controller
         $request->validate([
             'message' => 'required|string',
             'type' => 'required|in:saran,kritik',
-            'name' => 'nullable|string|max:255',
         ]);
         Feedback::create([
             'user_id' => auth()->id(),
             'type' => $request->type,
-            'title' => $request->title,
             'message' => $request->message,
         ]);
-        return redirect()->route('feedbacks.create')->with('success', 'Terima kasih atas masukan Anda!');
+        return redirect()->route('mahasiswa.feedback')->with('success', 'Terima kasih atas masukan Anda!');
     }
 
     public function destroy(Feedback $feedback)
     {
         $feedback->delete();
-        return redirect()->route('feedbacks.index')->with('success', 'Feedback berhasil dihapus.');
+        return redirect()->route('mahasiswa.feedback')->with('success', 'Feedback berhasil dihapus.');
     }
     
     public function edit($id)
@@ -49,13 +47,13 @@ class FeedbacksController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
             'message' => 'required|string',
+            'type' => 'required|in:saran,kritik',
         ]);
         $feedback = Feedback::findOrFail($id);
         $feedback->update([
-            'title' => $request->title,
             'message' => $request->message,
+            'type' => $request->type,
         ]);
         return redirect()->route('mahasiswa.feedback')->with('success', 'Feedback berhasil diupdate.');
     }

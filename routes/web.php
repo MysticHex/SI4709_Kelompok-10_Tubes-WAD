@@ -29,7 +29,7 @@ Route::middleware(RedirectIfAuthenticated::class)->group(function () {
     })->name('register');
 });
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware( ['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/users', [AdminController::class, 'editUser'])->name('admin.users');
     Route::put('/admin/users', [AdminController::class, 'updateUser'])->name('admin.update');
@@ -44,9 +44,8 @@ Route::middleware(['auth', 'role:student'])->group(function () {
     
     Route::put('/mahasiswa/tak/{id}', [TAKController::class, 'updateTak'])->name('mahasiswa.tak.update');
     Route::get('/mahasiswa/tak/create', [MahasiswaController::class, 'createTak'])->name('mahasiswa.tak.create');
-    Route::post('/mahasiswa/tak/store', [TAKController::class, 'store'])->name('mahasiswa.tak.store');
-    
     Route::get('/mahasiswa/tak/{id}/edit', [MahasiswaController::class, 'edit'])->name('mahasiswa.tak.edit');
+    Route::post('/mahasiswa/tak/store', [TAKController::class, 'store'])->name('mahasiswa.tak.store');
     Route::delete('/mahasiswa/tak/{id}', [TAKController::class, 'destroy'])->name('mahasiswa.tak.destroy');
 
     Route::get('/mahasiswa/feedback', [FeedbacksController::class, 'index'])->name('mahasiswa.feedback');
@@ -54,7 +53,6 @@ Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/mahasiswa/feedback/{id}/edit', [FeedbacksController::class, 'edit'])->name('feedbacks.edit');
     Route::put('/mahasiswa/feedback/{id}', [FeedbacksController::class, 'update'])->name('feedbacks.update');
     Route::get('/mahasiswa/feedback/create', [FeedbacksController::class, 'create'])->name('feedbacks.create');
-    
     Route::delete('/mahasiswa/feedback/{feedback}', [FeedbacksController::class, 'destroy'])->name('feedbacks.destroy');
 
 });

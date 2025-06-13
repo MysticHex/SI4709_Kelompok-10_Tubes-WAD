@@ -20,7 +20,6 @@
                 <thead>
                     <tr>
                         <th class="px-4 py-2">No</th>
-                        <th class="px-4 py-2">Judul</th>
                         <th class="px-4 py-2">Pesan</th>
                         <th class="px-4 py-2">Tanggal</th>
                         <th class="px-4 py-2">Aksi</th>
@@ -30,7 +29,6 @@
                     @foreach($feedbacks as $index => $feedback)
                         <tr>
                             <td class="border px-4 py-2">{{ $index + 1 }}</td>
-                            <td class="border px-4 py-2">{{ $feedback->title }}</td>
                             <td class="border px-4 py-2">{{ $feedback->message }}</td>
                             <td class="border px-4 py-2">{{ $feedback->created_at->format('d-m-Y H:i') }}</td>
                             <td class="border px-4 py-2">

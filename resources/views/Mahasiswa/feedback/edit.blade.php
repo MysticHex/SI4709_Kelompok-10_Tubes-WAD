@@ -18,12 +18,15 @@
             @csrf
             @method('PUT')
             <div class="mb-4">
-                <label for="title" class="block font-semibold mb-2">Judul</label>
-                <input type="text" name="title" id="title" class="input input-bordered w-full" value="{{ old('title', $feedback->title) }}" required>
-            </div>
-            <div class="mb-4">
                 <label for="message" class="block font-semibold mb-2">Pesan</label>
                 <textarea name="message" id="message" rows="4" class="input input-bordered w-full" required>{{ old('message', $feedback->message) }}</textarea>
+            </div>
+            <div class="mb-4">
+                <label for="type" class="block font-semibold mb-2">Tipe</label>
+                <select name="type" id="type" class="input input-bordered w-full" required>
+                    <option value="saran" {{ old('type', $feedback->type) == 'saran' ? 'selected' : '' }}>Saran</option>
+                    <option value="kritik" {{ old('type', $feedback->type) == 'kritik' ? 'selected' : '' }}>Kritik</option>
+                </select>
             </div>
             <button type="submit" class="btn btn-success">Update</button>
             <a href="{{ route('mahasiswa.feedback') }}" class="btn btn-secondary ml-2">Kembali</a>
